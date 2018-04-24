@@ -4,6 +4,15 @@ from math import *
 from gmath import *
 
 def scanline_convert(polygons, i, screen, zbuffer ):
+    i = 2
+    for i in polygons
+        p1 = polygons[i]
+        p2 = polygons[i - 1]
+        p3 = polygons[i - 2]
+        top = max(p1[1], p2[1] p3[1])
+        bot = min(p1[1], p2[1], p3[1])
+        
+        i += 3
     pass
 
 def add_polygon( polygons, x0, y0, z0, x1, y1, z1, x2, y2, z2 ):
