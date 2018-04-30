@@ -7,7 +7,7 @@ def scanline_convert(polygons, i, screen, zbuffer ):
     color = [color.append(random.randint(0, 255)), color.append(random.randint(0, 255)), color.append(random.randint(0, 255))] 
     x0 = polygons[i][0]
     x1 = polygons[i+1][0]
-    x2 = polygons[i+2][]
+    x2 = polygons[i+2][0]
     z0 = polygons[i][2]
     z1 = polygons[i+1][2]
     z2 = polygons[i+2][2]
