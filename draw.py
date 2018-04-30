@@ -4,16 +4,67 @@ from math import *
 from gmath import *
 
 def scanline_convert(polygons, i, screen, zbuffer ):
-    i = 2
-    for i in polygons
-        p1 = polygons[i]
-        p2 = polygons[i - 1]
-        p3 = polygons[i - 2]
-        top = max(p1[1], p2[1] p3[1])
-        bot = min(p1[1], p2[1], p3[1])
+    color = [color.append(random.randint(0, 255)), color.append(random.randint(0, 255)), color.append(random.randint(0, 255))] 
+    x0 = polygons[i][0]
+    x1 = polygons[i+1][0]
+    x2 = polygons[i+2][]
+    z0 = polygons[i][2]
+    z1 = polygons[i+1][2]
+    z2 = polygons[i+2][2]
+    y0 = polygons[i][1]
+    y1 = polygons[i+1][1]
+    y2 = polygons[i+2][1]
+    if (y0 > y2):
+        y0, y2 = y2, y0
+        x0, x2 = x2, x0
+        z0, z2 = z2, z0 
+
+    if (y0 > y1): 
+        y0, y1 = y1, y0 
+        x0, x1 = x1, x0 
+        z0, z1 = z1, z0 
         
-        i += 3
-    pass
+    if (y1 > y2): 
+        y1, y2 = y2, y1
+        x1, x2 = x2, x1 
+        z1, z2 = z2, z1 
+
+    y = y0 
+    xi = x0 
+    xf = x0 
+    zi = z0 
+    zf = z1 
+    d_xi = (x2-x0)/(y2-y0)
+    d_zi = (z2-z0)/(y2-y0)
+    draw_line(xi, y, zi, xf, y, zf, screen, zbuffer, color)
+
+    if y1 - y0 != 0: 
+        d_xf = (x1-x0)/(y1-y0)
+        d_zf = (z1-z0)/(y1-y0)
+
+        while y < y1: 
+            draw_line(xi, y, zi, xf, y, zf, screen, zbuffer, color)
+            xi += d_xi
+            xf += d_xf
+            zi += d_zi
+            zf += d_zf
+            y += 1
+
+    y = y1 
+    xf = x1 
+    zf = z1 
+    draw_line(xi, y, zi, xf, y, zf, screen, zbuffer, color)
+
+    if y2 - y1 != 0:
+        d_xf = (x2-x1)/(y2-y1)
+        d_zf = (z2-z1)/(y2-y1)
+        while y < y2: 
+            draw_line(xi, y, zi, xf, y, zf, screen, zbuffer, color)
+            xi += d_xi
+            xf += d_xf
+            zi += d_zi
+            zf += d_zf
+            y += 1
 
 def add_polygon( polygons, x0, y0, z0, x1, y1, z1, x2, y2, z2 ):
     add_point(polygons, x0, y0, z0);
@@ -22,7 +73,7 @@ def add_polygon( polygons, x0, y0, z0, x1, y1, z1, x2, y2, z2 ):
 
 def draw_polygons( matrix, screen, zbuffer, color ):
     if len(matrix) < 2:
-        print 'Need at least 3 points to draw'
+        print 'Not enough points'
         return
 
     point = 0
